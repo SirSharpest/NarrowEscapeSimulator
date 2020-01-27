@@ -29,7 +29,7 @@ def escape_with_path(D, vol, pd_size, pore_locs, dt=1e-7, seed=None,
     while tries < max_tries:
         new_pos = travel(delta, cur_pos)
         tries = tries + 1
-        while (check_func(new_pos, r)) is False:
+        while (not (check_func(new_pos, r))):
             for pd_loc in pore_locs:
                 if passthrough_pore(new_pos, pd_loc, r=pd_size):
                     path[tries] = new_pos
@@ -56,7 +56,7 @@ def escape(D, vol, pore_size, pore_locs, dt=1e-7,
     steps = 0
     while steps < max_steps:
         new_pos = travel(delta, cur_pos)
-        while (check_func(new_pos, r)) == False:
+        while (not (check_func(new_pos, r))):
             for pd_loc in pore_locs:
                 if passthrough_pore(new_pos, pd_loc, r=pore_size):
                     return (steps+1)*dt
