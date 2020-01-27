@@ -1,5 +1,5 @@
 import numpy as np
-from .escape_utility import sphere_vol_to_r, cube_vol_to_r, calculate_delta
+from .escape_utility import sphere_vol_to_r, cube_vol_to_r, calculate_delta, calculate_opt_dt
 from .escape_detection import in_sphere, in_cube, passthrough_pore
 
 
@@ -11,48 +11,57 @@ def travel(delta, pa):
     return p
 
 
-def escape_with_path(D, vol, pd_size, pore_locs, dt=1e-7, seed=None,
-                     shape='sphere', max_tries=None):
+def escape_with_path(r, delta, dt, shape, max_steps,
+                     pore_locs, pore_size, check_func):
+    cur_pos = np.zeros(3)
+    path = np.zeros((max_steps, 3))
+    path[0] = cur_pos
+    steps = 0
+    while steps < max_steps:
+        new_pos = travel(delta, cur_pos)
+        steps = steps + 1
+        while (not (check_func(new_pos, r))):
+            for pd_loc in pore_locs:
+                if passthrough_pore(new_pos, pd_loc, r=pore_size):
+                    path[steps] = new_pos
+                    return path[:steps]
+            new_pos = travel(delta, cur_pos)
+        cur_pos = new_pos
+        path[steps] = cur_pos
+    return path[:steps]
+
+
+def escape(D, vol, pore_size, pore_locs,
+           dt=None, seed=None, shape='sphere',
+           max_steps=(int(1e7)), with_path=False):
+    if dt is None:
+        dt = calculate_opt_dt(pore_size, D)
     delta = calculate_delta(D, dt)
     if seed is not None:
         np.random.seed(seed)
     else:
         np.random.seed()
-    max_tries = (int(1/dt) if max_tries is None else max_tries)
-    particle = np.zeros(3)
-    path = np.zeros((max_tries, 3))
-    path[0] = particle
-    tries = 0
-    cur_pos = path[0]
+    max_steps = (int(1/dt) if max_steps is None else max_steps)
     check_func = in_sphere if shape == 'sphere' else in_cube
     r = sphere_vol_to_r(vol) if shape == 'sphere' else cube_vol_to_r(vol)
-    while tries < max_tries:
-        new_pos = travel(delta, cur_pos)
-        tries = tries + 1
-        while (not (check_func(new_pos, r))):
-            for pd_loc in pore_locs:
-                if passthrough_pore(new_pos, pd_loc, r=pd_size):
-                    path[tries] = new_pos
-                    return path[:tries]
-            new_pos = travel(delta, cur_pos)
-        cur_pos = new_pos
-        path[tries] = cur_pos
-    return path[:tries]
+
+    if with_path:
+        return escape_with_path(r, delta, dt,
+                                shape, max_steps, pore_locs,
+                                pore_size, check_func)
+    else:
+        return escape_quick(r, delta, dt,
+                            shape, max_steps, pore_locs,
+                            pore_size, check_func)
 
 
-def escape(D, vol, pore_size, pore_locs, dt=1e-7,
-           seed=None, shape='sphere', max_steps=int(1e7)):
+def escape_quick(r, delta, dt, shape, max_steps,
+                 pore_locs, pore_size, check_func):
     """
     Removed tracking to optimise speed
     """
-    delta = calculate_delta(D, dt)
-    if seed is not None:
-        np.random.seed(seed)
-    else:
-        np.random.seed()
     cur_pos = np.zeros(3)
     check_func = in_sphere if shape == 'sphere' else in_cube
-    r = sphere_vol_to_r(vol) if shape == 'sphere' else cube_vol_to_r(vol)
     steps = 0
     while steps < max_steps:
         new_pos = travel(delta, cur_pos)
