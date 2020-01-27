@@ -23,7 +23,7 @@ bibliography: paper.bib
 
 # Summary
 
-In biology many research questions focus on uncovering the mechanics which allow particles (molecules, proteins etc.) to move from one location to another. Often these movements are from one domain to another and these domains are in someway contained. The "narrow escape problem" is a bio-physics problem where the solution would provide the average time required for a Brownian particle to escape a bounded domain through a particular opening. Originally proposed by @holcmanEscapeSmallOpening2004, solutions to this problem have been proposed and refined over the years @schussNarrowEscapeProblem2007.
+In biology many research questions focus on uncovering the mechanisms which allow particles (molecules, proteins etc.) to move from one location to another. Often these movements are from one domain to another and these domains are in some way contained. The "narrow escape problem" is a bio-physics problem where the solution would provide the average time required for a Brownian particle to escape a bounded domain through a particular opening. Originally proposed by @holcmanEscapeSmallOpening2004, solutions to this problem have been proposed and refined over the years @schussNarrowEscapeProblem2007.
 
 Here, we present a novel Python library which enables simulations to be ran in order to solve the narrow escape problem for unique scenarios. The mathematical models provided are simple and robust, they provide stochastic estimations through random-walks in 3-dimensions. With our models we show that they are good approximations for analytical solutions ([example notebook](https://github.com/SirSharpest/NarrowEscapeSimulator/blob/master/notebooks/Examples.ipynb)), and that they can be scaled to many custom problems.
 
