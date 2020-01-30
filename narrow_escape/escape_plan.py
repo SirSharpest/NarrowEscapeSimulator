@@ -12,8 +12,7 @@ def travel(delta, pa):
 
 
 def escape_with_path(r, delta, dt, shape, max_steps,
-                     pore_locs, pore_size, check_func):
-    cur_pos = np.zeros(3)
+                     pore_locs, pore_size, check_func, cur_pos):
     path = np.zeros((max_steps, 3))
     path[0] = cur_pos
     steps = 0
@@ -33,7 +32,7 @@ def escape_with_path(r, delta, dt, shape, max_steps,
 
 def escape(D, vol, pore_size, pore_locs,
            dt=None, seed=None, shape='sphere',
-           max_steps=(int(1e7)), with_path=False):
+           max_steps=(int(1e7)), with_path=False, random_start=False):
     if dt is None:
         dt = calculate_opt_dt(pore_size, D)
     delta = calculate_delta(D, dt)
@@ -41,26 +40,32 @@ def escape(D, vol, pore_size, pore_locs,
         np.random.seed(seed)
     else:
         np.random.seed()
+
     max_steps = (int(1/dt) if max_steps is None else max_steps)
     check_func = in_sphere if shape == 'sphere' else in_cube
     r = sphere_vol_to_r(vol) if shape == 'sphere' else cube_vol_to_r(vol)
 
+    if random_start:
+        cur_pos = np.random.random(3) * (r/2) * np.random.choice([-1, +1], 3)
+    else:
+        cur_pos = np.zeros(3)
+
     if with_path:
         return escape_with_path(r, delta, dt,
                                 shape, max_steps, pore_locs,
-                                pore_size, check_func)
+                                pore_size, check_func, cur_pos)
     else:
         return escape_quick(r, delta, dt,
                             shape, max_steps, pore_locs,
-                            pore_size, check_func)
+                            pore_size, check_func, cur_pos)
 
 
 def escape_quick(r, delta, dt, shape, max_steps,
-                 pore_locs, pore_size, check_func):
+                 pore_locs, pore_size, check_func, cur_pos):
     """
     Removed tracking to optimise speed
     """
-    cur_pos = np.zeros(3)
+
     check_func = in_sphere if shape == 'sphere' else in_cube
     steps = 0
     while steps < max_steps:
