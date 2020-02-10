@@ -1,5 +1,5 @@
 ---
-title: PyEscape: A narrow escape problem simulator package for python
+title: "PyEscape: A narrow escape problem simulator package for python"
 tags:
   - Python
   - mathematics
