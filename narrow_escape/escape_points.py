@@ -2,8 +2,8 @@ import numpy as np
 from .escape_utility import sphere_vol_to_r
 
 
-def fibonacci_spheres(samples=1, v=1, randomize=True):
-    radius = sphere_vol_to_r(v)
+def fibonacci_spheres(samples=1, v=1, randomize=True, r=0):
+    radius = sphere_vol_to_r(v) - r
     rnd = 1 if randomize is False else np.random.randint(10)
     points = []
     offset = 2./samples
