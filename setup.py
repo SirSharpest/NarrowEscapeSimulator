@@ -12,4 +12,9 @@ setup(name='narrow_escape',
                         'matplotlib',
                         'scipy',
                         'tqdm'],
+      entry_points={
+          'console_scripts': [
+              'narrow_escape = narrow_escape.__main__:main'
+          ]
+      },
       zip_safe=True)
