@@ -4,6 +4,12 @@ from .escape_detection import in_sphere, in_cube, passthrough_pore, passthrough_
 
 
 def travel(delta, pa):
+    """Find a new position for a particle
+
+    Takes a delta, movement size and a particle of N dimensions
+    returns a new array of similar dimensions to pa.
+
+    """
     p = pa.copy()
     xyz = np.random.random(p.shape)
     xyz_sq_sum = np.sum(xyz**2)
@@ -15,6 +21,16 @@ def travel(delta, pa):
 
 def escape_with_path(r, delta, dt, shape, max_steps,
                      pore_locs, pore_size, check_func, cur_pos):
+    """Provides the full path of a particle as it escapes from a container
+
+    Takes a radius of container, delta step size, dt difference of time,
+    a shape (cube of sphere), a maximum number of steps to allow, location of escape pore(s),
+    size of escape pore(s), a checking function for collision and
+    the current position of the particle
+
+    returns a multi-dimensional array of a particle at each position as it escapes the container
+    will return if max steps is reached or when escape is detected
+    """
     path = np.zeros((max_steps, 3))
     path[0] = cur_pos
     steps = 0
@@ -35,6 +51,14 @@ def escape_with_path(r, delta, dt, shape, max_steps,
 def escape(D, vol, pore_size, pore_locs,
            dt=None, seed=None, shape='sphere',
            max_steps=(int(1e7)), with_path=False, random_start=False, flat=False):
+    """Wrapper function that can be called by a user - used to optimise code shared between escape methods
+
+    Takes a diffusion coefficent, volume of container, escape pore size, escape pore(s) location.
+    Optional arguments of step-size and a numpy random seed can be given, as well as specifying maximum number of
+    steps that a walk can take. Switches to return the full path (or just the time required), to start the particle
+    at the container centroid or random placement, and to detect a flat exit area or an exit volume.
+
+    """
     if dt is None:
         dt = calculate_opt_dt(pore_size, D)
     delta = calculate_delta(D, dt)
@@ -68,8 +92,14 @@ def escape(D, vol, pore_size, pore_locs,
 
 def escape_flat(r, delta, dt, shape, max_steps,
                 pore_locs, pore_size, check_func, cur_pos):
-    """
-    Removed tracking to optimise speed
+    """Simulates a escape of a a particle, through a flat pore on surface of container
+
+    Takes a radius of container, delta step size, dt difference of time,
+    a shape (cube of sphere), a maximum number of steps to allow, location of escape pore(s),
+    size of escape pore(s), a checking function for collision and
+    the current position of the particle
+
+    returns a number of steps taken to escape
     """
     check_func = in_sphere if shape == 'sphere' else in_cube
     steps = 0
@@ -87,8 +117,14 @@ def escape_flat(r, delta, dt, shape, max_steps,
 
 def escape_quick(r, delta, dt, shape, max_steps,
                  pore_locs, pore_size, check_func, cur_pos):
-    """
-    Removed tracking to optimise speed
+    """Simulates escape without tracking position through container
+
+    Takes a radius of container, delta step size, dt difference of time,
+    a shape (cube of sphere), a maximum number of steps to allow, location of escape pore(s),
+    size of escape pore(s), a checking function for collision and
+    the current position of the particle
+
+    returns a number of steps taken to escape
     """
     check_func = in_sphere if shape == 'sphere' else in_cube
     steps = 0

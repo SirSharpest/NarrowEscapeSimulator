@@ -3,6 +3,14 @@ from .escape_utility import sphere_vol_to_r
 
 
 def fibonacci_spheres(samples=1, v=1, randomize=True, r=0):
+    """Produces pseudo-evenly distributed points on the surface
+    of a sphere
+
+    Optional arguments give the number of points to return, volume
+    of the sphere and to randomize the points initial positions.
+
+    returns 3D coordinates of specified number of points
+    """
     radius = sphere_vol_to_r(v) - r
     rnd = 1 if randomize is False else np.random.randint(10)
     points = []
@@ -22,6 +30,12 @@ def fibonacci_spheres(samples=1, v=1, randomize=True, r=0):
 
 
 def points_on_cube_surface(samples, r=1):
+    """Gives a random distribution of points on a cube surface
+
+    A number of samples and an optional cube radius can be given
+
+    returns a series of points randomly distributed on surface of cube
+    """
     points = []
     r = np.cbrt(r)
     for i in range(samples):
