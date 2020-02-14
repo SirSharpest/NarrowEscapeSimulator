@@ -7,7 +7,30 @@ Examples are provided in the `notebooks` folder.
 This software can be used by anyone wanting to simulate how long a particle under Brownian motion will take to escape from a container with a number of escape pores on it's surface. This was developed with a cellular biology context, however usage in chemistry, physics and animal sciences could easily be imagined. This software is presented as easily modifiable.
 
 
-## Main usage
+# As a command line app
+
+To get results for a model with:
+
+- Diffusion coefficient (D) of 400
+- Volume (v) of 1um^3
+- Pore area (a) of 0.1
+- Number of pores (p) of 1
+- Number of simulations (N) of 10
+
+You can run:
+
+``` bash
+narrow_escape -D 400 -v 1 -a 0.1 -p 1 -N 1
+```
+
+For help type:
+
+``` bash
+narrow_escape --help
+```
+
+
+# To run as a python package
 
 
 To get a single simulation result:
