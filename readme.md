@@ -7,6 +7,10 @@ Examples are provided in the `notebooks` folder.
 This software can be used by anyone wanting to simulate how long a particle under Brownian motion will take to escape from a container with a number of escape pores on it's surface. This was developed with a cellular biology context, however usage in chemistry, physics and animal sciences could easily be imagined. This software is presented as easily modifiable.
 
 
+## A note on running
+
+This software can be run on a standard PC, we have tested for both OSX and Linux. However, running large numbers of simulations is best done on high-performance-computing equiment. This package is optimised for larger number of CPUs. Runnining on older/slower hardware may require additional time.
+
 # As a command line app
 
 To get results for a model with:
