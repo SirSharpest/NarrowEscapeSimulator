@@ -134,6 +134,10 @@ pip install pytest-timeout
 
 Any and all suggestions for improvements and feature additions are welcome. We ask that new features be requested with specific data, test case scenarios and desired outputs. Python code submitted for pull requests should be appropriately formatted to a PEP8 standard.
 
+Bug reports and other issues can be made through the issues report feature of github.
+
+Requests for collboration, or research based questions can be made to nathan.hughes@jic.ac.uk
+
 # Acknowledgements
 
 We thank Prof. Richard Morris for supervising and providing instrumental advice in the development of this research, Dr. Melissa Tomkins for help, advice and problem solving and BBSRC + Norwich Research Park Doctoral Training Programme for their funding and support.
