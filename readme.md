@@ -1,5 +1,8 @@
 # Narrow Escape Simulator
 
+[![status](https://joss.theoj.org/papers/c47ec67686a14361072ed703a58bac15/status.svg)](https://joss.theoj.org/papers/c47ec67686a14361072ed703a58bac15)
+
+
 This is a python 3 library which provides ready-made simulations for determining the average escape time for a Brownian particle out of a container.
 Examples are provided in the `notebooks` folder.
 
