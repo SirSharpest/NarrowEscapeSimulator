@@ -12,8 +12,8 @@ def travel(delta, pa):
     """
     p = pa.copy()
     xyz = np.random.random(p.shape)
-    xyz_sq_sum = np.sum(xyz**2)
-    xyz = np.sqrt(xyz**2 / xyz_sq_sum) * delta * \
+    xyz_sum = np.sum(xyz)
+    xyz = np.sqrt(xyz / xyz_sum) * delta * \
         np.random.choice([-1, +1], p.shape)
     p += xyz
     return p
