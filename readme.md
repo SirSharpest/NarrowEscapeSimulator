@@ -1,11 +1,18 @@
 # Narrow Escape Simulator
 
+[![status](https://joss.theoj.org/papers/c47ec67686a14361072ed703a58bac15/status.svg)](https://joss.theoj.org/papers/c47ec67686a14361072ed703a58bac15)
+
+
 This is a python 3 library which provides ready-made simulations for determining the average escape time for a Brownian particle out of a container.
 Examples are provided in the `notebooks` folder.
 
 
 This software can be used by anyone wanting to simulate how long a particle under Brownian motion will take to escape from a container with a number of escape pores on it's surface. This was developed with a cellular biology context, however usage in chemistry, physics and animal sciences could easily be imagined. This software is presented as easily modifiable.
 
+
+## A note on running
+
+This software can be run on a standard PC, we have tested for both OSX and Linux. However, running large numbers of simulations is best done on high-performance-computing equiment. This package is optimised for larger number of CPUs. Runnining on older/slower hardware may require additional time.
 
 # As a command line app
 
@@ -133,6 +140,10 @@ pip install pytest-timeout
 # Contributions
 
 Any and all suggestions for improvements and feature additions are welcome. We ask that new features be requested with specific data, test case scenarios and desired outputs. Python code submitted for pull requests should be appropriately formatted to a PEP8 standard.
+
+Bug reports and other issues can be made through the issues report feature of github.
+
+Requests for collboration, or research based questions can be made to nathan.hughes@jic.ac.uk
 
 # Acknowledgements
 
