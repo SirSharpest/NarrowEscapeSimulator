@@ -89,6 +89,9 @@ To extend this further, we much wish to multi-process to speed up simulations:
 from narrow_escape.escape_plan import escape
 from narrow_escape.escape_points import fibonacci_spheres, points_on_cube_surface
 import numpy as np
+import multiprocessing
+import os
+import tqdm
 
 D = 400
 v = 1
