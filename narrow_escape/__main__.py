@@ -1,7 +1,7 @@
 import argparse
 import numpy as np
-from .narrow_escape.escape_plan import escape
-from .narrow_escape.escape_points import fibonacci_spheres, points_on_cube_surface
+from .escape_plan import escape
+from .escape_points import fibonacci_spheres, points_on_cube_surface
 import multiprocessing
 from tqdm import tqdm
 
