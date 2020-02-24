@@ -49,6 +49,7 @@ from narrow_escape.escape_points import fibonacci_spheres, points_on_cube_surfac
 
 D = 400
 v = 1
+p = 1
 a = 0.1
 
 pores = fibonacci_spheres(p, v)
