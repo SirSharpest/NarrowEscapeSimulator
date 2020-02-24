@@ -51,6 +51,7 @@ D = 400
 v = 1
 p = 1
 a = 0.1
+dt = 1e-6 # dt approaching 0 will take longer but give more accurate results
 
 pores = fibonacci_spheres(p, v)
 
@@ -65,7 +66,7 @@ To get a more accurate value, multiple simulations are required e.g. :
 ``` python
 from narrow_escape.escape_plan import escape
 from narrow_escape.escape_points import fibonacci_spheres, points_on_cube_surface
-
+import numpy as np
 
 D = 400
 v = 1
@@ -87,7 +88,10 @@ To extend this further, we much wish to multi-process to speed up simulations:
 ``` python
 from narrow_escape.escape_plan import escape
 from narrow_escape.escape_points import fibonacci_spheres, points_on_cube_surface
-
+import numpy as np
+import multiprocessing
+import os
+import tqdm
 
 D = 400
 v = 1
