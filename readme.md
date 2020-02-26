@@ -136,10 +136,11 @@ Running the examples notebook will require additional requirements which can be 
 pip install jupyter tqdm
 ```
 
-To run tests you will require the pytest-timeout module:
+To run tests you will require pytest and the pytest-timeout module:
 
 ``` bash
-pip install pytest-timeout
+pip install pytest pytest-timeout
+pytest # run from the package root or the Testing directory
 ```
 
 # Contributions
