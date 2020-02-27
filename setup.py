@@ -10,7 +10,6 @@ setup(name='narrow_escape',
       packages=['narrow_escape'],
       install_requires=['numpy',
                         'matplotlib',
-                        'scipy',
                         'tqdm'],
       entry_points={
           'console_scripts': [

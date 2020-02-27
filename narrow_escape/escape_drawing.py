@@ -1,7 +1,5 @@
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-import numpy as np
 from itertools import product, combinations
+import numpy as np
 from .escape_utility import sphere_vol_to_r, cube_vol_to_r
 
 
@@ -9,6 +7,8 @@ def draw_sphere(v, ax):
     """Draws a sphere on an axis
 
     Sphere volume and axis to draw on need to be specified
+
+    ax must be a 3D axis
     """
     r = sphere_vol_to_r(v)
     u = np.linspace(0, 2 * np.pi, 100)
@@ -22,8 +22,10 @@ def draw_sphere(v, ax):
 
 def draw_cube(v, ax):
     """Draws a cube on axis
-
+    
     Cube volume and axis to draw on need to be specified
+
+    ax must be a 3D axis
     """
     r = cube_vol_to_r(v)
     r = [-r/2, r/2]
