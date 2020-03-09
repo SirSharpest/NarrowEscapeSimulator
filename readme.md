@@ -37,8 +37,13 @@ narrow_escape --help
 ```
 
 
-# To run as a python package
+# Running example notebook 
 
+``` bash
+jupyter-notebook ./notebooks/Examples.ipynb
+```
+
+# To run as a python package
 
 To get a single simulation result:
 
@@ -118,13 +123,13 @@ print(res_mean)
 
 # Installation
 
-In a conda environment (recommended) with python 3.6+ simply clone the repository and run:
+With python 3.6+ clone the repository and run:
 
 ``` bash
 pip install .
 ```
 
-If using base install of python (not recommended), you may want to run:
+Alternatively, installing locally: 
 
 ``` bash
 pip install . --user
@@ -133,7 +138,7 @@ pip install . --user
 Running the examples notebook will require additional requirements which can be installed with:
 
 ``` bash
-pip install jupyter tqdm
+pip install jupyter
 ```
 
 To run tests you will require pytest and the pytest-timeout module:

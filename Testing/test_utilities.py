@@ -1,19 +1,18 @@
-import pytest
-import numpy as np
 from narrow_escape.escape_utility import sphere_vol_to_r, cube_vol_to_r, calculate_delta, calculate_opt_dt
+import numpy.testing as npt
 
 
 def test_cube_vol_to_r():
-    assert cube_vol_to_r(1) == 1.0
+    npt.assert_almost_equal(cube_vol_to_r(1), 1.0, decimal=2)
 
 
 def test_sphere_vol_to_r():
-    assert np.around(sphere_vol_to_r(1), 2) == 0.62
+    npt.assert_almost_equal(sphere_vol_to_r(1), 0.62, decimal=2)
 
 
 def test_calc_delta():
-    assert calculate_delta(400, 1e-8) == 0.004898979485566357
+    npt.assert_almost_equal(calculate_delta(400, 1e-8), 0.004898979485566357, decimal=5)
 
 
 def test_opt_dt():
-    assert calculate_opt_dt(0.1, 400) == 4.166666666666668e-06
+    npt.assert_almost_equal(calculate_opt_dt(0.1, 400), 4.166666666666668e-06, decimal=5)

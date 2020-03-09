@@ -19,7 +19,7 @@ def travel(delta, pa):
     return p
 
 
-def escape_with_path(r, delta, dt, shape, max_steps,
+def escape_with_path(r, delta, dt, max_steps,
                      pore_locs, pore_size, check_func, cur_pos):
     """Provides the full path of a particle as it escapes from a container
 
@@ -47,7 +47,7 @@ def escape_with_path(r, delta, dt, shape, max_steps,
             new_pos = travel(delta, cur_pos)
         cur_pos = new_pos
         path[steps] = cur_pos
-    return path[:steps]
+    return path[:steps] if steps < max_steps else np.zeros(path.shape)
 
 
 def escape(D, vol, pore_size, pore_locs,
@@ -83,19 +83,19 @@ def escape(D, vol, pore_size, pore_locs,
 
     if with_path:
         return escape_with_path(r, delta, dt,
-                                shape, max_steps, pore_locs,
+                                max_steps, pore_locs,
                                 pore_size, check_func, cur_pos)
-    elif flat:
+    if flat:
         return escape_flat(r, delta, dt,
-                           shape, max_steps, pore_locs,
+                           max_steps, pore_locs,
                            pore_size, check_func, cur_pos)
-    else:
-        return escape_quick(r, delta, dt,
-                            shape, max_steps, pore_locs,
-                            pore_size, check_func, cur_pos)
+
+    return escape_quick(r, delta, dt,
+                        max_steps, pore_locs,
+                        pore_size, check_func, cur_pos)
 
 
-def escape_flat(r, delta, dt, shape, max_steps,
+def escape_flat(r, delta, dt, max_steps,
                 pore_locs, pore_size, check_func, cur_pos):
     """Simulates a escape of a a particle, through a flat pore on surface of container
 
@@ -107,7 +107,6 @@ def escape_flat(r, delta, dt, shape, max_steps,
     returns a number of steps taken to escape
 
     """
-    check_func = in_sphere if shape == 'sphere' else in_cube
     steps = 0
     while steps < max_steps:
         new_pos = travel(delta, cur_pos)
@@ -118,10 +117,10 @@ def escape_flat(r, delta, dt, shape, max_steps,
             new_pos = travel(delta, cur_pos)
         cur_pos = new_pos
         steps = steps + 1
-    return steps*dt
+    return steps*dt if steps < max_steps else 0
 
 
-def escape_quick(r, delta, dt, shape, max_steps,
+def escape_quick(r, delta, dt, max_steps,
                  pore_locs, pore_size, check_func, cur_pos):
     """Simulates escape without tracking position through container
 
@@ -133,7 +132,6 @@ def escape_quick(r, delta, dt, shape, max_steps,
     returns a number of steps taken to escape
 
     """
-    check_func = in_sphere if shape == 'sphere' else in_cube
     steps = 0
     while steps < max_steps:
         new_pos = travel(delta, cur_pos)
@@ -144,4 +142,4 @@ def escape_quick(r, delta, dt, shape, max_steps,
             new_pos = travel(delta, cur_pos)
         cur_pos = new_pos
         steps = steps + 1
-    return steps*dt
+    return steps*dt if steps < max_steps else 0

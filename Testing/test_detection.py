@@ -1,8 +1,5 @@
 from narrow_escape.escape_points import fibonacci_spheres, points_on_cube_surface
 from narrow_escape.escape_detection import in_sphere, in_cube
-import pytest
-import numpy as np
-
 
 def test_points_in_sphere():
     assert in_sphere(fibonacci_spheres(1, 100)[0], 1) == False
