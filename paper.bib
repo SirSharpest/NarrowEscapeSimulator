@@ -40,3 +40,38 @@
   number = {41},
   pmid = {17901203}
 }
+
+@article{codlingRandomWalkModels2008,
+  title = {Random Walk Models in Biology},
+  author = {Codling, Edward A and Plank, Michael J and Benhamou, Simon},
+  year = {2008},
+  month = aug,
+  volume = {5},
+  pages = {813--834},
+  doi = {10.1098/rsif.2008.0014},
+  abstract = {Mathematical modelling of the movement of animals, micro-organisms and cells is of great relevance in the fields of biology, ecology and medicine. Movement models can take many different forms, but the most widely used are based on the extensions of simple random walk processes. In this review paper, our aim is twofold: to introduce the mathematics behind random walks in a straightforward manner and to explain how such models can be used to aid our understanding of biological processes. We introduce the mathematical theory behind the simple random walk and explain how this relates to Brownian motion and diffusive processes in general. We demonstrate how these simple models can be extended to include drift and waiting times or be used to calculate first passage times. We discuss biased random walks and show how hyperbolic models can be used to generate correlated random walks. We cover two main applications of the random walk model. Firstly, we review models and results relating to the movement, dispersal and population redistribution of animals and micro-organisms. This includes direct calculation of mean squared displacement, mean dispersal distance, tortuosity measures, as well as possible limitations of these model approaches. Secondly, oriented movement and chemotaxis models are reviewed. General hyperbolic models based on the linear transport equation are introduced and we show how a reinforced random walk can be used to model movement where the individual changes its environment. We discuss the applications of these models in the context of cell migration leading to blood vessel growth (angiogenesis). Finally, we discuss how the various random walk models and approaches are related and the connections that underpin many of the key processes involved.},
+  file = {/Users/hughesn/Google Drive/PHD/Zotfile/C/Codling et al. - 2008 - Random walk models in biology.pdf;/Users/hughesn/Zotero/storage/X2QPKKHK/rsif.2008.html},
+  journal = {Journal of The Royal Society Interface},
+  note = {01012},
+  number = {25}
+}
+
+
+@article{kayeFastSolverNarrow2020,
+  title = {A Fast Solver for the Narrow Capture and Narrow Escape Problems in the Sphere},
+  author = {Kaye, Jason and Greengard, Leslie},
+  year = {2020},
+  month = jan,
+  volume = {5},
+  pages = {100047},
+  issn = {2590-0552},
+  doi = {10.1016/j.jcpx.2019.100047},
+  abstract = {We present an efficient method to solve the narrow capture and narrow escape problems for the sphere. The narrow capture problem models the equilibrium behavior of a Brownian particle in the exterior of a sphere whose surface is reflective, except for a collection of small absorbing patches. The narrow escape problem is the dual problem: it models the behavior of a Brownian particle confined to the interior of a sphere whose surface is reflective, except for a collection of small patches through which it can escape. Mathematically, these give rise to mixed Dirichlet/Neumann boundary value problems of the Poisson equation. They are numerically challenging for two main reasons: (1) the solutions are non-smooth at Dirichlet-Neumann interfaces, and (2) they involve adaptive mesh refinement and the solution of large, ill-conditioned linear systems when the number of small patches is large. By using the Neumann Green's functions for the sphere, we recast each boundary value problem as a system of first-kind integral equations on the collection of patches. A block-diagonal preconditioner together with a multiple scattering formalism leads to a well-conditioned system of second-kind integral equations and a very efficient approach to discretization. This system is solved iteratively using GMRES. We develop a hierarchical, fast multipole method-like algorithm to accelerate each matrix-vector product. Our method is insensitive to the patch size, and the total cost scales with the number N of patches as O(Nlog⁡N), after a precomputation whose cost depends only on the patch size and not on the number or arrangement of patches. We demonstrate the method with several numerical examples, and are able to achieve highly accurate solutions with 100000 patches in one hour on a 60-core workstation. For that case, adaptive discretization of each patch would lead to a dense linear system with about 360 million degrees of freedom. Our preconditioned system uses only 13.6 million ``compressed'' degrees of freedom and a few dozen GMRES iterations.},
+  file = {/Users/hughesn/Zotero/storage/LKDIID3C/Kaye and Greengard - 2020 - A fast solver for the narrow capture and narrow es.pdf;/Users/hughesn/Zotero/storage/RDGPE864/S2590055219300630.html},
+  journal = {Journal of Computational Physics: X},
+  keywords = {Fast multipole method,Integral equations,Mean first passage time,Mixed boundary value problems,Narrow capture,Narrow escape},
+  language = {en}
+}
+
+
+
