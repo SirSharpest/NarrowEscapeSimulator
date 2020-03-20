@@ -2,6 +2,7 @@ import numpy as np
 from .escape_utility import sphere_vol_to_r, cube_vol_to_r, calculate_delta, calculate_opt_dt
 from .escape_detection import in_sphere, in_cube, passthrough_pore, passthrough_flat_pore
 
+MAX_NEW_MOVEMENTS = 100 
 
 def travel(delta, pa):
     """Find a new position for a particle
@@ -37,14 +38,16 @@ def escape_with_path(r, delta, dt, max_steps,
     path[0] = cur_pos
     steps = 0
     while steps < max_steps:
+        new_pos_steps = 0
         new_pos = travel(delta, cur_pos)
         steps = steps + 1
-        while (not (check_func(new_pos, r))):
+        while (not (check_func(new_pos, r)) and new_pos_steps < MAX_NEW_MOVEMENTS):
             for pd_loc in pore_locs:
                 if passthrough_pore(new_pos, pd_loc, r=pore_size):
                     path[steps] = new_pos
                     return path[:steps]
             new_pos = travel(delta, cur_pos)
+            new_pos_steps += 1
         cur_pos = new_pos
         path[steps] = cur_pos
     return path[:steps] if steps < max_steps else np.zeros(path.shape)
@@ -71,11 +74,9 @@ def escape(D, vol, pore_size, pore_locs,
         np.random.seed(seed)
     else:
         np.random.seed()
-
     max_steps = (int(1/dt) if max_steps is None else max_steps)
     check_func = in_sphere if shape == 'sphere' else in_cube
     r = sphere_vol_to_r(vol) if shape == 'sphere' else cube_vol_to_r(vol)
-
     if random_start:
         cur_pos = np.random.random(3) * (r/2) * np.random.choice([-1, +1], 3)
     else:
@@ -109,12 +110,14 @@ def escape_flat(r, delta, dt, max_steps,
     """
     steps = 0
     while steps < max_steps:
+        new_pos_steps = 0 
         new_pos = travel(delta, cur_pos)
-        while (not (check_func(new_pos, r))):
+        while (not (check_func(new_pos, r)) and new_pos_steps < MAX_NEW_MOVEMENTS ):
             for pd_loc in pore_locs:
                 if passthrough_flat_pore(new_pos, pd_loc, r=pore_size):
                     return (steps+1)*dt
             new_pos = travel(delta, cur_pos)
+            new_pos_steps += 1
         cur_pos = new_pos
         steps = steps + 1
     return steps*dt if steps < max_steps else 0
@@ -135,11 +138,13 @@ def escape_quick(r, delta, dt, max_steps,
     steps = 0
     while steps < max_steps:
         new_pos = travel(delta, cur_pos)
-        while (not (check_func(new_pos, r))):
+        new_pos_steps = 0
+        while (not (check_func(new_pos, r)) and new_pos_steps < MAX_NEW_MOVEMENTS):
             for pd_loc in pore_locs:
                 if passthrough_pore(new_pos, pd_loc, r=pore_size):
                     return (steps+1)*dt
             new_pos = travel(delta, cur_pos)
+            new_pos_steps += 1
         cur_pos = new_pos
         steps = steps + 1
     return steps*dt if steps < max_steps else 0
