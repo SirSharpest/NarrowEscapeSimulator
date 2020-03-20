@@ -1,4 +1,4 @@
-from narrow_escape.escape_utility import sphere_vol_to_r, cube_vol_to_r, calculate_delta, calculate_opt_dt
+from PyEscape.escape_utility import sphere_vol_to_r, cube_vol_to_r, calculate_delta, calculate_opt_dt
 import numpy.testing as npt
 
 

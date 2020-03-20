@@ -1,6 +1,6 @@
-from narrow_escape.escape_plan import escape
-from narrow_escape.escape_points import fibonacci_spheres, points_on_cube_surface
-from narrow_escape.escape_utility import sphere_vol_to_r
+from PyEscape.escape_plan import escape
+from PyEscape.escape_points import fibonacci_spheres, points_on_cube_surface
+from PyEscape.escape_utility import sphere_vol_to_r
 import pytest
 import numpy as np
 

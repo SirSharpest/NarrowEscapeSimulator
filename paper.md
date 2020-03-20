@@ -45,7 +45,7 @@ good approximations for analytical solutions ([example
 notebook](https://github.com/SirSharpest/NarrowEscapeSimulator/blob/master/notebooks/Examples.ipynb)),
 and that they can be scaled to many custom problems.
 
-
+ 
 Through this library we provide functionality for both cube and spherical shaped
 domains. We enable a broad range of simulation variables to control, in the most
 simple case a user will select the volume and shape they wish to act as their
@@ -56,6 +56,13 @@ the fast placement of escape pores pseudo-evenly spaced on the surface of a
 sphere, this is often useful in experiments to test how number of escapes
 relates to mean escape time.
 
+
+# External libraries used 
+
+The models given are implemented through NumPy
+@vanderwaltNumPyArrayStructure2011, results are visualised through Matplotlib
+@hunterMatplotlib2DGraphics2007a and documentation has been implemented using
+Jupyter-notebooks @Kluyver:2016aa .
 
 # Acknowledgements
 

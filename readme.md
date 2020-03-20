@@ -41,13 +41,13 @@ To get results for a model with:
 You can run:
 
 ``` bash
-narrow_escape -D 400 -v 1 -a 0.1 -p 1 -N 1
+PyEscape -D 400 -v 1 -a 0.1 -p 1 -N 1
 ```
 
 For help type:
 
 ``` bash
-narrow_escape --help
+PyEscape --help
 ```
 
 
@@ -62,8 +62,8 @@ jupyter-notebook ./notebooks/Examples.ipynb
 To get a single simulation result:
 
 ``` python
-from narrow_escape.escape_plan import escape
-from narrow_escape.escape_points import fibonacci_spheres, points_on_cube_surface
+from PyEscape.escape_plan import escape
+from PyEscape.escape_points import fibonacci_spheres, points_on_cube_surface
 
 
 D = 400
@@ -83,8 +83,8 @@ print(res)
 To get a more accurate value, multiple simulations are required e.g. :
 
 ``` python
-from narrow_escape.escape_plan import escape
-from narrow_escape.escape_points import fibonacci_spheres, points_on_cube_surface
+from PyEscape.escape_plan import escape
+from PyEscape.escape_points import fibonacci_spheres, points_on_cube_surface
 import numpy as np
 
 D = 400
@@ -107,8 +107,8 @@ To extend this further, we much wish to multi-process to speed up simulations:
 (tqdm is now used to monitor progress, can be removed!)
 
 ``` python
-from narrow_escape.escape_plan import escape
-from narrow_escape.escape_points import fibonacci_spheres, points_on_cube_surface
+from PyEscape.escape_plan import escape
+from PyEscape.escape_points import fibonacci_spheres, points_on_cube_surface
 import numpy as np
 import multiprocessing
 import os
