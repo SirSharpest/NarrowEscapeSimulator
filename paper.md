@@ -50,7 +50,7 @@ Through this library we provide functionality for both cube and spherical shaped
 domains. We enable a broad range of simulation variables to control, in the most
 simple case a user will select the volume and shape they wish to act as their
 container, the number and size of escape pores on the container's surface and
-the average speed (diffusion coefficient) of their particle of interest.
+the diffusion coefficient of their particle of interest.
 Additionally, we give an implementation of Fibonacci spheres which allows for
 the fast placement of escape pores pseudo-evenly spaced on the surface of a
 sphere, this is often useful in experiments to test how number of escapes
