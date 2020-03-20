@@ -3,11 +3,11 @@ import numpy.testing as npt
 
 
 def test_cube_vol_to_r():
-    npt.assert_almost_equal(cube_vol_to_r(1), 1.0, decimal=2)
+    npt.assert_almost_equal(cube_vol_to_r(1), 1.0, decimal=5)
 
 
 def test_sphere_vol_to_r():
-    npt.assert_almost_equal(sphere_vol_to_r(1), 0.62, decimal=2)
+    npt.assert_almost_equal(sphere_vol_to_r(1), 0.62035, decimal=5)
 
 
 def test_calc_delta():
