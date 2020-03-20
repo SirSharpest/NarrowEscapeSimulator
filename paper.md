@@ -29,10 +29,10 @@ Often these movements are from one domain to another and these domains are in
 some way contained. The "narrow escape problem" is a bio-physics problem where
 the solution would provide the average time required for a Brownian particle to
 escape a bounded domain through a particular opening. Originally proposed by
-(@holcmanEscapeSmallOpening2004), solutions to this problem have been given and
-refined over the years (@schussNarrowEscapeProblem2007).
+[@holcmanEscapeSmallOpening2004], solutions to this problem have been given and
+refined over the years [@schussNarrowEscapeProblem2007].
 
-Recently, solutions have been given @kayeFastSolverNarrow2020 for more complex
+Recently, solutions have been given [@kayeFastSolverNarrow2020] for more complex
 narrow escape problems, such as arbitrary escape pore patterning and size
 variation. However, these are provided without easily accessible implementations
 and confine the problem to a single container shape. 
@@ -40,7 +40,7 @@ and confine the problem to a single container shape.
 Here, we present a novel Python library which enables stochastic simulations to
 be ran in order to approximate the narrow escape problem for unique scenarios.
 The mathematical models provided are implementations of random-walks in
-3-dimensions, (@codlingRandomWalkModels2008). With our models we show that they are
+3-dimensions, [@codlingRandomWalkModels2008]. With our models we show that they are
 good approximations for analytical solutions ([example
 notebook](https://github.com/SirSharpest/NarrowEscapeSimulator/blob/master/notebooks/Examples.ipynb)),
 and that they can be scaled to many custom problems.
@@ -60,9 +60,9 @@ relates to mean escape time.
 # External libraries used 
 
 The models given are implemented through NumPy
-(@vanderwaltNumPyArrayStructure2011), results are visualised through Matplotlib
-(@hunterMatplotlib2DGraphics2007a) and documentation has been implemented using
-Jupyter-notebooks (@Kluyver:2016aa)) .
+[@vanderwaltNumPyArrayStructure2011]], results are visualised through Matplotlib
+[@hunterMatplotlib2DGraphics2007a]] and documentation has been implemented using
+Jupyter-notebooks [@Kluyver:2016aa].
 
 # Acknowledgements
 
