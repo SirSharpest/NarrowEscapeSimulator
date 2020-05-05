@@ -119,6 +119,7 @@ v = 1
 a = 0.1
 p = 1
 N = 100
+dt = 1e-6 # dt approaching 0 will take longer but give more accurate results
 pores = fibonacci_spheres(p, v)
 
 
