@@ -1,14 +1,16 @@
 import numpy as np
 
 
-def in_sphere(p, r, p0=np.array([0, 0, 0])):
+def in_sphere(p, r, p0=None):
     """Checks if a particle p is in a sphere with radius r
 
     Optional arguments of p0 is the offset of the container
 
     returns True if p is in p0
     """
-    return np.sum((p-p0)**2) < r**2
+    if p0 is None:
+        return sum(p**2) < r * r
+    return sum((p-p0)**2) < r * r
 
 
 def in_circle(x, y, a=0, b=0, r=25):
@@ -18,7 +20,9 @@ def in_circle(x, y, a=0, b=0, r=25):
 
     returns True if x,y is in circle of position a,b and radius r
     """
-    return (x - a)*(x - a) + (y - b)*(y - b) < r**2
+    x -= a
+    y -= b
+    return x * x + y * y < r * r
 
 
 def in_cube(p, r=1):
@@ -29,7 +33,7 @@ def in_cube(p, r=1):
     returns True if p is in specified cube
     """
     r = r/2
-    return not (np.any(np.logical_or(p <= -r, p >= r)))
+    return not any(np.logical_or(p <= -r, p >= r))
 
 
 def passthrough_pore(p, p0, r=1):
@@ -45,10 +49,9 @@ def passthrough_pore(p, p0, r=1):
 def passthrough_flat_pore(p, p0, r=1):
     """Checks if a point has entered escape zone of a pore,
     flat to the surface of shape
-
     Optional arguments of r size
     """
-    if (p0[2] - r) > p[2] < (p0[2] + r):
+    if -r < p[2] - p0[2] < r:
         return in_circle(p[0], p[1], a=p0[0], b=p0[1], r=r)
     else:
-        False
+        return False
