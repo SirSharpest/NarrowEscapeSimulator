@@ -2,12 +2,17 @@ import numpy as np
 from .escape_utility import sphere_vol_to_r
 
 
-def make_cluster(npoints, v=1, r=0.1, jitter=0.1):
-    ic = np.random.randn(3, 1)
-    jit = np.random.normal(r, (1+jitter)*r, (3, npoints))
-    points = ic * (1+jit)
-    points /= np.linalg.norm(points, axis=0)
-    return points * sphere_vol_to_r(v)
+def make_clusters(nclusters, npointspercluster, v=1, r=0.1, jitter=0.1):
+
+    cluster_points = fibonacci_spheres(samples=nclusters, v=v)
+    clusters = []
+    for ic in cluster_points:
+        jit = np.random.normal(r, (1+jitter)*r, (3, npointspercluster))
+        points = ic * (1+jit)
+        points /= np.linalg.norm(points, axis=0)
+        points *= sphere_vol_to_r(v)
+        clusters.append(points)
+    return clusters
 
 
 def fibonacci_spheres(samples=1, v=1, randomize=True, r=0):
