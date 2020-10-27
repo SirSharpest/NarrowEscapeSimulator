@@ -1,8 +1,10 @@
 import numpy as np
-from .escape_utility import sphere_vol_to_r, cube_vol_to_r, calculate_delta, calculate_opt_dt
-from .escape_detection import in_sphere, in_cube, passthrough_pore, passthrough_flat_pore
+from .escape_utility import sphere_vol_to_r, cube_vol_to_r, calculate_delta
+from .escape_utility import calculate_opt_dt
+from .escape_detection import in_sphere, in_cube, passthrough_pore
 
-MAX_NEW_MOVEMENTS = 100 
+MAX_NEW_MOVEMENTS = 100
+
 
 def travel(delta, pa):
     """Find a new position for a particle
@@ -34,6 +36,8 @@ def escape_with_path(r, delta, dt, max_steps,
     detected
 
     """
+    if not isinstance(pore_size, list):
+        pore_size = np.ones(len(pore_locs)) * pore_size
     path = np.zeros((max_steps, 3))
     path[0] = cur_pos
     steps = 0
@@ -42,10 +46,10 @@ def escape_with_path(r, delta, dt, max_steps,
         new_pos = travel(delta, cur_pos)
         steps = steps + 1
         while (not (check_func(new_pos, r)) and new_pos_steps < MAX_NEW_MOVEMENTS):
-            for pd_loc in pore_locs:
-                if passthrough_pore(new_pos, pd_loc, r=pore_size):
+            for idx, (pd_loc, psize) in enumerate(zip(pore_locs, pore_size)):
+                if passthrough_pore(new_pos, pd_loc, r=psize):
                     path[steps] = new_pos
-                    return path[:steps]
+                    return (path[:steps], idx)
             new_pos = travel(delta, cur_pos)
             new_pos_steps += 1
         cur_pos = new_pos
@@ -55,7 +59,8 @@ def escape_with_path(r, delta, dt, max_steps,
 
 def escape(D, vol, pore_size, pore_locs,
            dt=None, seed=None, shape='sphere',
-           max_steps=(int(1e7)), with_path=False, random_start=False, flat=False):
+           max_steps=(int(1e7)), with_path=False,
+           random_start=False):
     """Wrapper function that can be called by a user - used to optimise code
     shared between escape methods
 
@@ -86,41 +91,10 @@ def escape(D, vol, pore_size, pore_locs,
         return escape_with_path(r, delta, dt,
                                 max_steps, pore_locs,
                                 pore_size, check_func, cur_pos)
-    if flat:
-        return escape_flat(r, delta, dt,
-                           max_steps, pore_locs,
-                           pore_size, check_func, cur_pos)
 
     return escape_quick(r, delta, dt,
                         max_steps, pore_locs,
                         pore_size, check_func, cur_pos)
-
-
-def escape_flat(r, delta, dt, max_steps,
-                pore_locs, pore_size, check_func, cur_pos):
-    """Simulates a escape of a a particle, through a flat pore on surface of container
-
-    Takes a radius of container, delta step size, dt difference of time, a
-    shape (cube of sphere), a maximum number of steps to allow, location of
-    escape pore(s), size of escape pore(s), a checking function for collision
-    and the current position of the particle
-
-    returns a number of steps taken to escape
-
-    """
-    steps = 0
-    while steps < max_steps:
-        new_pos_steps = 0 
-        new_pos = travel(delta, cur_pos)
-        while (not (check_func(new_pos, r)) and new_pos_steps < MAX_NEW_MOVEMENTS ):
-            for pd_loc in pore_locs:
-                if passthrough_flat_pore(new_pos, pd_loc, r=pore_size):
-                    return (steps+1)*dt
-            new_pos = travel(delta, cur_pos)
-            new_pos_steps += 1
-        cur_pos = new_pos
-        steps = steps + 1
-    return steps*dt if steps < max_steps else 0
 
 
 def escape_quick(r, delta, dt, max_steps,

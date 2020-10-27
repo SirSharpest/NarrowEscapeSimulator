@@ -41,7 +41,7 @@ def main():
     D, v, a, s, p, n, dt, cpu = float(args['D']), float(args['v']), float(
         args['a']), str(args['s']), int(args['p']), int(args['N']), float(args['dt']), int(args['cpu'])
 
-    res = run_simulations(D, v, a, s, p, n, dt, cpu)
+    res, _ = run_simulations(D, v, a, s, p, n, dt, cpu)
     print(np.mean(res))
     np.savetxt(args['o'], np.array(res).flatten(), delimiter=',')
 
