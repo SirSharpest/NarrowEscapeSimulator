@@ -2,6 +2,14 @@ import numpy as np
 from .escape_utility import sphere_vol_to_r
 
 
+def make_cluster(npoints, v=1, r=0.1, jitter=0.1):
+    ic = np.random.randn(3, 1)
+    jit = np.random.normal(r, (1+jitter)*r, (3, npoints))
+    points = ic * (1+jit)
+    points /= np.linalg.norm(points, axis=0)
+    return points * sphere_vol_to_r(v)
+
+
 def fibonacci_spheres(samples=1, v=1, randomize=True, r=0):
     """Produces pseudo-evenly distributed points on the surface
     of a sphere
