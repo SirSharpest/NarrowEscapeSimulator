@@ -1,5 +1,7 @@
 import numpy as np
-from .escape_utility import sphere_vol_to_r
+from .escape_utility import sphere_vol_to_r, calculate_delta
+from .escape_plan import travel
+from .escape_detection import in_polygon
 
 
 def fibonacci_spheres(samples=1, v=1, randomize=True, r=0):
@@ -27,6 +29,17 @@ def fibonacci_spheres(samples=1, v=1, randomize=True, r=0):
         x = x * radius
         points.append(np.array([x, y, z]))
     return points
+
+
+def random_points_on_hull(hull, npts=1):
+    pts = []
+    delta = calculate_delta(400, 1e-7)
+    for i in range(npts):
+        cur_pos = np.array([0., 0., 0.])
+        while(in_polygon(cur_pos, hull)):
+            cur_pos = travel(delta, cur_pos)
+        pts.append(cur_pos)
+    return pts
 
 
 def points_on_cube_surface(samples, r=1):

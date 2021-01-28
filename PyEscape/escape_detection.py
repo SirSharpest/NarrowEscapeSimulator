@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.spatial import ConvexHull
 
 
 def in_sphere(p, r, p0=None):
@@ -55,3 +56,11 @@ def passthrough_flat_pore(p, p0, r=1):
         return in_circle(p[0], p[1], a=p0[0], b=p0[1], r=r)
     else:
         return False
+
+
+def in_polygon(p, hull):
+    """Checks if p is within a convex hull"""
+    new_hull = ConvexHull(np.concatenate((hull.points, [p])))
+    if np.array_equal(new_hull.vertices, hull.vertices):
+        return True
+    return False
