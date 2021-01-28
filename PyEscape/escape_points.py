@@ -4,6 +4,28 @@ from .escape_plan import travel
 from .escape_detection import in_polygon
 
 
+def make_clusters(npointspercluster, nclusters=0, v=1, jitter=0.1, cluster_points=None):
+    """
+    Takes a number of points per cluster, option number of clusters and points and creates a random
+    distribution of points on the surface of a cell
+
+    returns a list of clusters and their associated points
+    """
+
+    if cluster_points is None:
+        cluster_points = fibonacci_spheres(samples=nclusters, v=v)
+    else:
+        nclusters = len(cluster_points)
+    clusters = []
+    for ic in cluster_points:
+        jit = np.random.normal(0, jitter, (3, npointspercluster))
+        points = np.reshape(ic, (3, 1)) + jit
+        points /= np.linalg.norm(points, axis=0)
+        points *= sphere_vol_to_r(v)
+        clusters.append(points)
+    return clusters
+
+
 def fibonacci_spheres(samples=1, v=1, randomize=True, r=0):
     """Produces pseudo-evenly distributed points on the surface
     of a sphere

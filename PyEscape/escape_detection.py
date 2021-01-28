@@ -37,13 +37,20 @@ def in_cube(p, r=1):
     return not any(np.logical_or(p <= -r, p >= r))
 
 
-def passthrough_pore(p, p0, r=1):
+def passthrough_pore(p, p0, r=1, contain_r=None):
     """Checks if a point has entered the escape zone of a pore p0
 
     Optional arguments of r size
 
+    Optional extra argument of contain_r, this ensures the
+    particle is closer to edge
+
     returns True if p is within p0
     """
+
+    if contain_r is not None:
+        return (in_sphere(p, r, p0=p0) and not in_sphere(p, contain_r))
+
     return in_sphere(p, r, p0=p0)
 
 
