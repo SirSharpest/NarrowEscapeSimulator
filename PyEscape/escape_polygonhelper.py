@@ -17,6 +17,7 @@ def make_hull_and_scale(pts, V_t=1):
 
     returns a convex hull and list of points
     """
+    pts = pts.astype('float64')
     hull = ConvexHull(pts)
     V = hull.volume
     cx = np.mean(hull.points[hull.vertices, 0])

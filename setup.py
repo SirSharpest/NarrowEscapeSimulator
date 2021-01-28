@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='PyEscape',
-      version='1.01',
+      version='1.02',
       description='Library used for simulating narrow escape problems',
       url='https://github.com/SirSharpest/narrow_escape',
       author='Nathan Hughes',
@@ -10,6 +10,7 @@ setup(name='PyEscape',
       packages=['PyEscape'],
       install_requires=['numpy',
                         'matplotlib',
+                        'scipy'
                         'tqdm'],
       entry_points={
           'console_scripts': [
