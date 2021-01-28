@@ -19,9 +19,9 @@ def make_hull_and_scale(pts, V_t=1):
     """
     hull = ConvexHull(pts)
     V = hull.volume
-    cx = int(np.mean(hull.points[hull.vertices, 0]))
-    cy = int(np.mean(hull.points[hull.vertices, 1]))
-    cz = int(np.mean(hull.points[hull.vertices, 2]))
+    cx = np.mean(hull.points[hull.vertices, 0])
+    cy = np.mean(hull.points[hull.vertices, 1])
+    cz = np.mean(hull.points[hull.vertices, 2])
     pts -= [cx, cy, cz]
     scaling_f = np.cbrt(V_t/V)
     pts_c = pts*scaling_f
