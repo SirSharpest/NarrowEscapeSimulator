@@ -2,13 +2,20 @@ from scipy.spatial import ConvexHull
 import numpy as np
 
 
-def isolate_points_from_segmented_imagestack(img_stack, i):
+def isolate_points_from_segmented_imagestack(img_stack, i, scaleX=1, scaleY=1, scaleZ=1):
     """Given a segmented 3 dimensional image isolate points of the
     polygon to escape from
 
     returns only points of interest as 3D coordinates
     """
-    return np.array(list(zip(*np.where(img_stack == i))))
+    return np.array(list(zip(*np.where(img_stack == i)))).astype('float64') * \
+        [scaleX, scaleY, scaleZ]
+
+
+def scale_voxel_points(pts, Xs, Ys, Zs, Tv):
+    pts_n = pts * [Xs. Ys, Zs]
+    h = ConvexHull(pts_n)
+    V = h.volume  # True volume
 
 
 def make_hull_and_scale(pts, V_t=1):

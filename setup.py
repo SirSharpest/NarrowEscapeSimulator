@@ -10,7 +10,7 @@ setup(name='PyEscape',
       packages=['PyEscape'],
       install_requires=['numpy',
                         'matplotlib',
-                        'scipy'
+                        'scipy',
                         'tqdm'],
       entry_points={
           'console_scripts': [
