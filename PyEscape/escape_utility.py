@@ -9,6 +9,13 @@ def sphere_vol_to_r(v):
     return (3*v/(4*np.pi))**(1/3)
 
 
+def vol_ellipsoid(a, b, c):
+    """
+    Calculates volume of ellipsoid
+    """
+    return 4/3*np.pi*a*b*c
+
+
 def cube_vol_to_r(v):
     """Calculates cube radius from it's volume
 

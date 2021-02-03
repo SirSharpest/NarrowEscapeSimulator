@@ -1,7 +1,7 @@
 import numpy as np
 from .escape_utility import sphere_vol_to_r, cube_vol_to_r, calculate_delta
-from .escape_utility import calculate_opt_dt
-from .escape_detection import in_sphere, in_cube, in_polygon
+from .escape_utility import calculate_opt_dt, vol_ellipsoid
+from .escape_detection import in_sphere, in_cube, in_polygon, in_ellipsoid
 from .escape_detection import passthrough_pore
 
 MAX_NEW_MOVEMENTS = 100
@@ -59,7 +59,7 @@ def escape_with_path(r, delta, dt, max_steps,
 
 
 def escape(D, vol, pore_size, pore_locs, dt=None, seed=None,
-           shape='sphere', hull=None, max_steps=(int(1e7)), with_path=False,
+           shape='sphere', hull=None, ABC=None, max_steps=(int(1e7)), with_path=False,
            random_start=False):
     """Wrapper function that can be called by a user - used to optimise code
     shared between escape methods
@@ -87,6 +87,19 @@ def escape(D, vol, pore_size, pore_locs, dt=None, seed=None,
     elif shape == 'cube':
         check_func = in_cube
         r = cube_vol_to_r(vol)
+    elif shape == 'ellipsoid':
+        if ABC is None:
+            raise NameError("Argument 'ABC' is undefined")
+
+        volN = vol_ellipsoid(*ABC)
+        cbrt_diff = vol/np.cbrt(volN)
+        a, b, c = np.array(ABC * cbrt_diff)
+
+        def ellipsoid_wrapper(p, r):
+            return in_ellipsoid(p[0], p[1], p[2], a, b, c)
+        check_func = ellipsoid_wrapper
+        r = 0
+
     elif shape == 'polygon':
         check_func = in_polygon
         if hull is None:
