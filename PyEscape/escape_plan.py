@@ -90,7 +90,7 @@ def escape(D, vol, pore_size, pore_locs, dt=None, seed=None,
     elif shape == 'ellipsoid':
         if ABC is None:
             raise NameError("Argument 'ABC' is undefined")
-
+        ABC = np.array(ABC).astype('float64')
         volN = vol_ellipsoid(*ABC)
         cbrt_diff = vol/np.cbrt(volN)
         a, b, c = np.array(ABC * cbrt_diff)
@@ -146,19 +146,6 @@ def escape_quick(r, delta, dt, max_steps,
 
 
 def passthrough_pore(p, p0, r=1, tol=0.5):
-    """Checks if a point has entered the escape zone of a pore p0
-
-    Optional arguments of r size
-
-    returns True if p is within p0
-    """
-
-    if in_sphere(p, r, p0=p0) and (np.linalg.norm(p-p0) < r*tol):
-        return True
-    return False
-
-
-def improv_passthrough_pore(p, p0, r, tol=0.5):
     if np.linalg.norm(p-p0) < r*tol:
         return True
     else:

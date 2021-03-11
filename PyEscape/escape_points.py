@@ -1,7 +1,7 @@
 import numpy as np
-from .escape_utility import sphere_vol_to_r, calculate_delta
+from .escape_utility import sphere_vol_to_r, calculate_delta, vol_ellipsoid
 from .escape_plan import travel
-from .escape_detection import in_polygon
+from .escape_detection import in_polygon, in_ellipsoid
 
 
 def make_clusters(npointspercluster, nclusters=0, v=1, jitter=0.1, cluster_points=None):
@@ -61,6 +61,39 @@ def random_points_on_hull(hull, npts=1):
         while(in_polygon(cur_pos, hull)):
             cur_pos = travel(delta, cur_pos)
         pts.append(cur_pos)
+    return pts
+
+
+def random_point_ellipsoid(a, b, c):
+    """
+    This function is taken from stackoverflow user Nikolay Frick
+    https://stackoverflow.com/a/61786434
+
+    It is used with minor modification
+    """
+
+    u = np.random.rand()
+    v = np.random.rand()
+    theta = u * 2.0 * np.pi
+    phi = np.arccos(2.0 * v - 1.0)
+    sinTheta = np.sin(theta)
+    cosTheta = np.cos(theta)
+    sinPhi = np.sin(phi)
+    cosPhi = np.cos(phi)
+    rx = a * sinPhi * cosTheta
+    ry = b * sinPhi * sinTheta
+    rz = c * cosPhi
+    return rx, ry, rz
+
+
+def random_points_on_ellipsoid(ABC, vol=1, npts=1):
+    pts = []
+    ABC = np.array(ABC).astype('float64')
+    volN = vol_ellipsoid(*ABC)
+    cbrt_diff = vol/np.cbrt(volN)
+    a, b, c = np.array(ABC * cbrt_diff)
+    for i in range(npts):
+        pts.append(random_point_ellipsoid(a, b, c))
     return pts
 
 

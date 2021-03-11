@@ -1,6 +1,7 @@
 from numpy.linalg import eig, inv
 from scipy.spatial import ConvexHull
 import numpy as np
+from .escape_utility import vol_ellipsoid
 
 
 def isolate_points_from_segmented_imagestack(img_stack, i, scaleX=1, scaleY=1, scaleZ=1):
@@ -120,7 +121,7 @@ def polyToParams3D(vec):
     return (centre, axes, inve)
 
 
-def fit_polygon_to_ellipsoid(hull):
+def fit_polygon_to_ellipsoid(hull, tV=1):
     """Given a hull calculate the ABC of ellipsoid which fits """
     pts = hull.points
     X = pts[:, 0]
@@ -137,4 +138,9 @@ def fit_polygon_to_ellipsoid(hull):
     hull = np.transpose(hull)
     eansa = ls_ellipsoid(hull[0], hull[1], hull[2])
     centre, axes, inve = polyToParams3D(eansa)
-    return centre
+
+    axes = np.array(axes).astype('float64')
+    volN = vol_ellipsoid(*axes)
+    cbrt_diff = tV/np.cbrt(volN)
+    a, b, c = np.array(axes * cbrt_diff)
+    return np.array([a, b, c])
