@@ -90,7 +90,7 @@ def random_points_on_ellipsoid(ABC, vol=1, npts=1):
     pts = []
     ABC = np.array(ABC).astype('float64')
     volN = vol_ellipsoid(*ABC)
-    cbrt_diff = vol/np.cbrt(volN)
+    cbrt_diff = np.cbrt(vol/volN)
     a, b, c = np.array(ABC * cbrt_diff)
     for i in range(npts):
         pts.append(random_point_ellipsoid(a, b, c))
