@@ -1,4 +1,5 @@
 import numpy as np
+from scipy.spatial.distance import euclidean
 from .escape_utility import sphere_vol_to_r, calculate_delta, vol_ellipsoid
 from .escape_plan import travel
 from .escape_detection import in_polygon, in_ellipsoid
@@ -53,15 +54,65 @@ def fibonacci_spheres(samples=1, v=1, randomize=True, r=0):
     return points
 
 
-def random_points_on_hull(hull, npts=1):
+def sample_in_hull(hull, npts=100):
+
+    def sample(npts):
+        xmin, xmax = hull.points[:, 0].min(), hull.points[:, 0].max()
+        ymin, ymax = hull.points[:, 1].min(), hull.points[:, 1].max()
+        zmin, zmax = hull.points[:, 2].min(), hull.points[:, 2].max()
+
+        Xs = np.random.uniform(low=xmin, high=xmax, size=npts)
+        Ys = np.random.uniform(low=ymin, high=ymax, size=npts)
+        Zs = np.random.uniform(low=zmin, high=zmax, size=npts)
+
+        stacked = np.zeros((npts, 3))
+        stacked[:, 0] = Xs
+        stacked[:, 1] = Ys
+        stacked[:, 2] = Zs
+
+        mask = np.ones(npts).astype('bool')
+        for idx, p in enumerate(stacked):
+            if not in_polygon(p, hull):
+                mask[idx] = 0
+        stacked = stacked[mask]
+        return stacked
+
+    stacked = sample(npts)
+    while len(stacked) < npts:
+        stacked = np.concatenate((stacked, sample(npts)))
+
+    return stacked[:npts]
+
+
+def random_points_on_hull(hull, npts=1, samples=100):
     pts = []
-    delta = calculate_delta(400, 1e-7)
-    for i in range(npts):
-        cur_pos = np.array([0., 0., 0.])
+    delta = calculate_delta(400, 1e-6)
+    sampled = []
+    start_pos = sample_in_hull(hull, npts=samples)
+    for i in range(samples):
+        cur_pos = start_pos[i]
         while(in_polygon(cur_pos, hull)):
             cur_pos = travel(delta, cur_pos)
-        pts.append(cur_pos)
-    return pts
+        sampled.append(cur_pos)
+
+    NSections = 11
+    p0 = hull.max_bound
+    maxDist = euclidean(p0, hull.min_bound)
+    ranges = np.linspace(0, maxDist, num=NSections)
+
+    for pt in range(npts):
+        ptsSelection = []
+        np.random.shuffle(sampled)
+        for mi, ma in zip(ranges[:-1], ranges[1:]):
+            for p1 in sampled:
+                dist = euclidean(p0, p1)
+                if mi < dist < ma:
+                    ptsSelection.append(p1)
+                    break
+        np.random.shuffle(ptsSelection)
+        pts.append(ptsSelection[0])
+
+    return pts, sampled
 
 
 def random_point_ellipsoid(a, b, c):

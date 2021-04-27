@@ -141,6 +141,6 @@ def fit_polygon_to_ellipsoid(hull, tV=1):
 
     axes = np.array(axes).astype('float64')
     volN = vol_ellipsoid(*axes)
-    cbrt_diff = tV/np.cbrt(volN)
+    cbrt_diff = np.cbrt(tV/volN)
     a, b, c = np.array(axes * cbrt_diff)
     return np.array([a, b, c])
