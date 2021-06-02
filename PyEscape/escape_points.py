@@ -27,7 +27,7 @@ def make_clusters(npointspercluster, nclusters=0, v=1, jitter=0.1, cluster_point
     return clusters
 
 
-def fibonacci_spheres(samples=1, v=1, randomize=True, r=0):
+def fibonacci_spheres(samples=1, v=1, randomize=True):
     """Produces pseudo-evenly distributed points on the surface
     of a sphere
 
@@ -36,7 +36,7 @@ def fibonacci_spheres(samples=1, v=1, randomize=True, r=0):
 
     returns 3D coordinates of specified number of points
     """
-    radius = sphere_vol_to_r(v) - r
+    radius = sphere_vol_to_r(v) 
     rnd = 1 if randomize is False else np.random.randint(10)
     points = []
     offset = 2./samples
