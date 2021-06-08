@@ -2,16 +2,12 @@ import numpy as np
 from scipy.spatial import ConvexHull
 
 
-def in_sphere(p, r, p0=None):
+def in_sphere(p, r):
     """Checks if a particle p is in a sphere with radius r
 
-    Optional arguments of p0 is the offset of the container
-
-    returns True if p is in p0
+    returns True if p is within r
     """
-    if p0 is None:
-        return sum(p**2) < r * r
-    return sum((p-p0)**2) < r * r
+    return np.linalg.norm(p) < r
 
 
 def in_circle(x, y, a=0, b=0, r=25):
@@ -27,7 +23,7 @@ def in_circle(x, y, a=0, b=0, r=25):
 
 
 def in_cube(p, r=1):
-    """Checks if point is in a centroid cube
+    """Checks if point is in a cube
 
     Optional argument of radius (diameter) of cube
 
@@ -41,7 +37,7 @@ def in_ellipsoid(x, y, z, a, b, c): return (
     (x**2/a**2) + (y**2/b**2) + (z**2/c**2)) < 1
 
 
-def passthrough_pore(p, p0, r=1, tol=0.9):
+def passthrough_pore(p, p0, r=1, tol=1):
     """Checks if a point has entered the escape zone of a pore p0
 
     Optional arguments of r size
@@ -51,10 +47,8 @@ def passthrough_pore(p, p0, r=1, tol=0.9):
 
     returns True if p is within p0
     """
-    if np.linalg.norm(p-p0) < r*tol:
-        return True
-    else:
-        return False
+    return np.linalg.norm(p-p0) < r*tol
+ 
 
 
 def passthrough_flat_pore(p, p0, r=1):

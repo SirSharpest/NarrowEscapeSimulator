@@ -3,17 +3,17 @@ from .escape_utility import sphere_vol_to_r, cube_vol_to_r, calculate_delta
 from .escape_utility import calculate_opt_dt, vol_ellipsoid
 from .escape_detection import in_sphere, in_cube, in_polygon, in_ellipsoid
 from .escape_detection import passthrough_pore
-
 MAX_NEW_MOVEMENTS = 100
 
 
-def travel(delta, pa):
+def travel(delta,  pa):
     """Find a new position for a particle
 
     Takes a delta, movement size and a particle of N dimensions returns a new
     array of similar dimensions to pa.
 
     """
+
     p = pa.copy()
     xyz = np.random.random(p.shape)
     xyz_sum = np.sum(xyz)
@@ -60,7 +60,7 @@ def escape_with_path(r, delta, dt, max_steps,
 
 def escape(D, vol, pore_size, pore_locs, dt=None, seed=None,
            shape='sphere', hull=None, ABC=None, max_steps=(int(1e7)), with_path=False,
-           random_start=False):
+           random_start=False, tol=1):
     """Wrapper function that can be called by a user - used to optimise code
     shared between escape methods
 
@@ -115,11 +115,11 @@ def escape(D, vol, pore_size, pore_locs, dt=None, seed=None,
 
     return escape_quick(r, delta, dt,
                         max_steps, pore_locs,
-                        pore_size, check_func, cur_pos)
+                        pore_size, check_func, cur_pos, tol)
 
 
 def escape_quick(r, delta, dt, max_steps,
-                 pore_locs, pore_size, check_func, cur_pos):
+                 pore_locs, pore_size, check_func, cur_pos, tol):
     """Simulates escape without tracking position through container
 
     Takes a radius of container, delta step size, dt difference of time, a
@@ -137,22 +137,9 @@ def escape_quick(r, delta, dt, max_steps,
         while (not (check_func(new_pos, r)) and new_pos_steps < MAX_NEW_MOVEMENTS):
             new_pos = travel(delta, cur_pos)
             new_pos_steps += 1
-        for pd_loc in pore_locs:
-            if passthrough_pore(new_pos, pd_loc, r=pore_size):
-                return (steps+1)*dt
+            for pd_loc in pore_locs:
+                if passthrough_pore(new_pos, pd_loc, r=pore_size, tol=tol):
+                    return (steps+1)*dt
         cur_pos = new_pos
         steps = steps + 1
     return steps*dt if steps < max_steps else 0
-
-
-def passthrough_pore(p, p0, r=1, tol=0.5):
-    if np.linalg.norm(p-p0) < r*tol:
-        return True
-    else:
-        return False
-
-
-def in_hull(point, hull, tolerance=1e-12):
-    return all(
-        (np.dot(eq[:-1], point) + eq[-1] <= tolerance)
-        for eq in hull.equations)

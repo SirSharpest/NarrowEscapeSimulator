@@ -51,7 +51,7 @@ def fibonacci_spheres(samples=1, v=1, randomize=True):
         y = y * radius
         x = x * radius
         points.append(np.array([x, y, z]))
-    return points
+    return np.array(points).reshape((-1,3))
 
 
 def sample_in_hull(hull, npts=100):
