@@ -60,7 +60,7 @@ def escape_with_path(r, delta, dt, max_steps,
 
 def escape(D, vol, pore_size, pore_locs, dt=None, seed=None,
            shape='sphere', hull=None, ABC=None, max_steps=(int(1e7)), with_path=False,
-           random_start=False, tol=1):
+           tol=1):
     """Wrapper function that can be called by a user - used to optimise code
     shared between escape methods
 
@@ -74,6 +74,7 @@ def escape(D, vol, pore_size, pore_locs, dt=None, seed=None,
     """
     if dt is None:
         dt = calculate_opt_dt(pore_size, D)
+
     delta = calculate_delta(D, dt)
     if seed is not None:
         np.random.seed(seed)
@@ -117,6 +118,20 @@ def escape(D, vol, pore_size, pore_locs, dt=None, seed=None,
                         max_steps, pore_locs,
                         pore_size, check_func, cur_pos, tol)
 
+
+
+def travel_alt(delta,  pa):
+    """Find a new position for a particle
+
+    Takes a delta, movement size and a particle of N dimensions returns a new
+    array of similar dimensions to pa.
+
+    """
+
+    p = pa.copy()
+    xyz = np.random.choice([-1, +1], p.shape)*delta/3
+    p += xyz
+    return p
 
 def escape_quick(r, delta, dt, max_steps,
                  pore_locs, pore_size, check_func, cur_pos, tol):

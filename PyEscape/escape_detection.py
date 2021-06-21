@@ -33,6 +33,9 @@ def in_cube(p, r=1):
     return not any(np.logical_or(p <= -r, p >= r))
 
 
+def in_cubeoid(p, cXYZ):
+    return np.any(cXYZ, np.abs(p))
+
 def in_ellipsoid(x, y, z, a, b, c): return (
     (x**2/a**2) + (y**2/b**2) + (z**2/c**2)) < 1
 

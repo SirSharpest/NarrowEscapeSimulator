@@ -115,6 +115,10 @@ def random_points_on_hull(hull, npts=1, samples=100):
     return pts, sampled
 
 
+def equally_space_points_on_cubeoid(A,B,C):
+    pass
+
+
 def random_point_ellipsoid(a, b, c):
     """
     This function is taken from stackoverflow user Nikolay Frick
