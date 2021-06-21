@@ -115,8 +115,39 @@ def random_points_on_hull(hull, npts=1, samples=100):
     return pts, sampled
 
 
-def equally_space_points_on_cubeoid(A,B,C):
-    pass
+def points_on_cubeoid(ABC, vol=1, npts=1):
+    volN = ABC[0] * ABC[1] * ABC[2]
+    cbrt_diff = np.cbrt(vol/volN)
+    ABC = np.array(ABC) * cbrt_diff
+    s1 = ABC[0] * ABC[1] * 2
+    s2 = ABC[0] * ABC[2] * 2
+    s3 = ABC[1] * ABC[2] * 2 
+    ta = s1+s2+s3
+    ppa = ta/npts
+    def make_pts_side(ppa, endsX, endsY):
+        endsX /=2 
+        endsY /=2
+        xy = np.mgrid[-endsX:endsX:np.sqrt(ppa), -endsY:endsY:np.sqrt(ppa)].reshape(2,-1).T
+        pts = [v for v in xy if (abs(v[0]) != endsX) and (abs(v[1]) != endsY)]
+        return np.array(pts) - (np.sqrt(ppa)/2)
+    pts = [ ]
+    for i, xyz in enumerate([(0,1), (0,2), (1,2)]):
+        xy = make_pts_side(ppa, ABC[xyz[0]], ABC[xyz[1]])
+        if i == 0:
+            for pt in xy:
+                pts.append([pt[0], pt[1], ABC[2]/2])
+                pts.append([pt[0], pt[1], -ABC[2]/2])
+        elif i == 1:
+            for pt in xy:
+                pts.append([pt[0], ABC[1]/2, pt[1]])
+                pts.append([pt[0], -ABC[1]/2, pt[1]])
+        elif i == 2:
+            for pt in xy:
+                pts.append([ABC[0]/2, pt[0], pt[1]])
+                pts.append([-ABC[0]/2, pt[0], pt[1]])
+
+    return np.array(pts)
+
 
 
 def random_point_ellipsoid(a, b, c):
